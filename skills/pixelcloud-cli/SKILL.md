@@ -30,13 +30,14 @@ pixel auth login                        # authenticate (opens browser)
 pixel auth logout                       # remove stored credentials
 pixel auth set-api-url <url>            # override API base URL
 pixel auth set-web-url <url>            # override web dashboard URL
-pixel create --image-id <id> --plan <id> [--name <n>] [--env K=V...]
+pixel create --image-id <id> --plan <nameOrId> [--name <n>] [--env K=V...]
 pixel start --server-id <id>
 pixel stop --server-id <id>
 pixel restart --server-id <id>
 pixel force-restart --server-id <id>    # delete pod, K8s auto-recreates
 pixel delete --server-id <id> [--yes]
 pixel search image [keywords]           # search game server images
+pixel search plan [keywords]            # list available hardware plans
 pixel prompt <message>                  # AI assistant (natural language)
 pixel status                            # list all servers
 pixel status --server-id <id>           # detailed view of one server
@@ -44,13 +45,16 @@ pixel status --server-id <id>           # detailed view of one server
 
 ## Tips
 
+- `--plan` accepts human-readable names (e.g. `basic`, `standard-14900k`) or numeric IDs. Matching is case-insensitive and supports partial names.
+- Use `pixel search plan` to discover available plan names and IDs before creating a server.
 - Add `--json` to any command for machine-readable output (no colors, no tables).
 - Use `pixel prompt` to let the AI assistant handle complex operations in natural language.
 - Environment variables: `PIXELCLOUD_TOKEN`, `PIXELCLOUD_API_URL`, `PIXELCLOUD_WEB_URL`.
 
 ## Workflow
 
-1. **Search** for a game image: `pixel search image "minecraft" --json`
-2. **Create** a server: `pixel create --image-id <id> --plan <id> --json`
-3. **Check** status: `pixel status --json`
-4. **Manage** lifecycle: `pixel start/stop/restart --server-id <id> --json`
+1. **Browse** available plans: `pixel search plan --json`
+2. **Search** for a game image: `pixel search image "minecraft" --json`
+3. **Create** a server: `pixel create --image-id <id> --plan basic --json`
+4. **Check** status: `pixel status --json`
+5. **Manage** lifecycle: `pixel start/stop/restart --server-id <id> --json`
