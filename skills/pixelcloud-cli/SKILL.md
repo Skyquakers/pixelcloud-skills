@@ -1,11 +1,37 @@
 ---
 name: pixelcloud-cli
-description: PixelCloud CLI skill for managing multiplayer game servers. Gives your AI agent the ability to create, start, stop, restart, and delete game servers, search images, and use natural language to manage infrastructure.
+description: PixelCloud CLI and HTTP API skill for managing multiplayer game servers. Gives your AI agent the ability to create servers with the CLI and inspect, start, stop, or restart selected servers through a scoped API key.
 ---
 
-# PixelCloud CLI
+# PixelCloud CLI and HTTP API
 
-You have access to the `pixel` CLI for managing game servers on PixelCloud.
+Manage game servers on PixelCloud through the `pixel` CLI or the versioned HTTP
+API.
+
+## Choose an access method
+
+- When `PIXELCLOUD_API_KEY` is available, prefer the HTTP API for listing,
+  inspecting, starting, stopping, and restarting existing servers. Read
+  [references/http-api.md](references/http-api.md) before making an API request.
+- Use the CLI for interactive device login, image and plan discovery, server
+  creation, server deletion, and natural-language chat.
+- Never print, log, or repeat an API key. Pass it from the environment in the
+  `Authorization` header. If no key is configured, direct the user to
+  `https://edgerunners.cn/dashboard/api-keys`; do not ask them to paste the key
+  into chat.
+- Use graceful `restart` first. Call `force-restart` only when the server is
+  stuck and the user has asked for that stronger action.
+
+## HTTP API quick start
+
+```bash
+curl https://api.edgerunners.cn/v1/servers \
+  -H "Authorization: Bearer $PIXELCLOUD_API_KEY"
+```
+
+An API key can see and control only the servers selected when the key was
+created or edited. Treat `404 server_not_permitted` as unavailable; do not try
+to discover servers outside that scope.
 
 ## Install
 
